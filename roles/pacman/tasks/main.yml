@@ -1,5 +1,5 @@
 - name: Initial System Setup
-  when: new_install is true
+  when: new_install == true
   block:
     # git is needed on a new install of the system
     - name: Install Git
@@ -14,9 +14,9 @@
     - name: Clone Trizen (AUR)
       git:
         repo: "https://aur.archlinux.org/trizen.git"
-        dest: "/home/{{local_user}}/code"
+        dest: "/home/{{local_user}}/code/trizen"
     - name: Install Trizen
-      shell: mkpkg -si --noconfirm
+      shell: makepkg -si --noconfirm
       args:
         chdir: "/home/{{local_user}}/code/trizen"
     - name: Install ansible-aur-git so Ansible can install Aur packages
