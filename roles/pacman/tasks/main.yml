@@ -86,6 +86,11 @@
         use: trizen
         upgrade: yes
 
+    - name: Remove deprecated aur packages
+      pacman:
+        name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs-remove') }}"
+        state: absent
+
     - name: Install packages
       become: false
       aur:
