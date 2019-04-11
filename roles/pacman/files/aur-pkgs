@@ -1,5 +1,6 @@
 ansible-aur-git
-arc-gtk-theme-git
+arc-gtk-theme
+arc-solid-gtk-theme
 bashmount
 bfg
 ccat
