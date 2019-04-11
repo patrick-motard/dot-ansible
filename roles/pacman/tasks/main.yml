@@ -1,0 +1,69 @@
+- name: Initial System Setup
+  when: new_install is true
+  block:
+    # git is needed on a new install of the system
+    - name: Install Git
+      become: true
+      pacman:
+        name: git
+    - name: Make code dir
+      become: false
+      file:
+        path: "/home/{{local_user}}/code"
+        state: directory
+    - name: Clone Trizen (AUR)
+      git:
+        repo: "https://aur.archlinux.org/trizen.git"
+        dest: "/home/{{local_user}}/code"
+    - name: Install Trizen
+      shell: mkpkg -si --noconfirm
+      args:
+        chdir: "/home/{{local_user}}/code/trizen"
+    - name: Install ansible-aur-git so Ansible can install Aur packages
+      git:
+        repo: "https://github.com/kewlfft/ansible-aur.git"
+        dest: "/home/{{local_user}}/.ansible/plugins/modules/aur"
+    - name: Install YADM
+      aur:
+        use: trizen
+        name: yadm-git
+    - name: Setup YADM
+      shell: "yadm clone https://github.com/{{github_user}}/dotfiles.git"
+
+- name: Pacman
+  sudo: true
+  sudo_user: root
+  tags:
+    - pacman
+  block:
+    - name: Install Arch packages
+      pacman:
+        name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs') }}"
+        state: present
+
+    - name: Remove deprecated pacman packages
+      pacman:
+        name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs-remove') }}"
+        state: absent
+
+    - name: Update pacman packages and cache.
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
+- name: AUR
+  tags:
+    - aur
+  block:
+    - name: Update AUR packages
+      become: false
+      aur:
+        use: trizen
+        upgrade: yes
+
+    - name: Install packages
+      become: false
+      aur:
+        use: trizen
+        name: "{{item}}"
+      with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs"
