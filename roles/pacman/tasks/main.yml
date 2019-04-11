@@ -76,6 +76,10 @@
   tags:
     - aur
   block:
+    - name: Add GPG signature for Spotify
+      command: "gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90"
+    - name: Add GPG signature for libc++ (for discord)
+      command: "gpg --recv-keys --keyserver hkp://pgp.mit.edu 0FC3042E345AD05D"
     - name: Update AUR packages
       become: false
       aur:
