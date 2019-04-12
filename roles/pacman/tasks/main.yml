@@ -59,7 +59,7 @@
   block:
     - name: Install Arch packages
       pacman:
-        name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs') }}"
+        name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs-core') }}"
         state: present
 
     - name: Remove deprecated pacman packages
@@ -96,4 +96,4 @@
       aur:
         use: trizen
         name: "{{item}}"
-      with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs"
+      with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs-core"
