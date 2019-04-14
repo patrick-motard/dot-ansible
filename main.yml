@@ -5,6 +5,9 @@
     - local_user: "han"
     - github_user: "patrick-motard"
     - new_install: true
+  roles:
+    - pacman
+
   tasks:
 
     - name: ckb (corsair keyboard)
@@ -95,5 +98,3 @@
     #   become: false
     #   shell: go get -u all
 
-  roles:
-    - pacman
