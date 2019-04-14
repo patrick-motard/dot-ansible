@@ -36,6 +36,11 @@
   tags:
     - pacman
   block:
+    - name: Update pacman packages and cache.
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
     - name: Install Arch packages
       pacman:
         name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs-core') }}"
@@ -46,10 +51,6 @@
         name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs-remove') }}"
         state: absent
 
-    - name: Update pacman packages and cache.
-      pacman:
-        update_cache: yes
-        upgrade: yes
 
 - name: AUR
   tags:
