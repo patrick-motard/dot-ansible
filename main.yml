@@ -23,6 +23,7 @@
     #         state: started
     #         enabled: yes
     - name: Docker
+      become: true
       block:
         - name: Create docker usergroup
           group:
