@@ -31,8 +31,7 @@
       shell: "yadm clone -f https://github.com/{{github_user}}/dotfiles.git"
 
 - name: Pacman
-  sudo: true
-  sudo_user: root
+  become: true
   tags:
     - pacman
   block:
@@ -56,9 +55,13 @@
 # Currently exa-git is the only package that needs rust. exa-git
 # a colorized replacement of ls.
 - name: Rust
-  command: |
-    rustup install stable
-    rustup default stable
+  block:
+    - name: Install stable.
+      command:
+        rustup install stable
+    - name: Set stable as default.
+      command: 
+        rustup default stable
 
 - name: AUR
   tags:
