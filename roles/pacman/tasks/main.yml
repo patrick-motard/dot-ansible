@@ -51,6 +51,14 @@
         name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs-remove') }}"
         state: absent
 
+# Some aur packages require compiling rust code
+# so this intializes rust before aur packages are installed.
+# Currently exa-git is the only package that needs rust. exa-git
+# a colorized replacement of ls.
+- name: Rust
+  command: |
+    rustup install stable
+    rustup default stable
 
 - name: AUR
   tags:
