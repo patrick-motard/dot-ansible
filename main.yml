@@ -98,7 +98,7 @@
         # needed for guru -> import/add dependencies (spacemacs go layer)
         - "github.com/uudashr/gopkgs/cmd/gopkgs"
         # needed for dotfiles
-        - "github.com/itchyny/volume-go"
+        - "github.com/itchyny/volume-go/cmd/volume"
         - "github.com/patrick-motard/dot"
     # - name: Update all existing golang packages
     #   become: false
