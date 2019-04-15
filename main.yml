@@ -73,6 +73,11 @@
     - name: Set yadm remote to .ssh
       become: false
       shell: "yadm remote set-url origin git@github.com:{{github_user}}/dotfiles.git"
+    - name: Remove ~/.emacs.d
+      become: false
+      file:
+        path: "/home/{{local_user}}/.emacs.d"
+        state: absent
     - name: Install Spacemacs
       become: false
       git:
