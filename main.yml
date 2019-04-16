@@ -5,7 +5,7 @@
     - local_user: "han"
     - github_user: "patrick-motard"
     - new_install: true
-    - background_images_dir: "/home/han/Dropbox/photos/backgrounds/2017/selected/*"
+    - background_images_dir: "/home/{{local_user}}/Dropbox/photos/backgrounds/2017/selected"
     - dot_ansible_path: "/home/{{local_user}}/code/dot-ansible"
     # - desktop_background_schedule: "*/1 * * * *"
   roles:
