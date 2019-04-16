@@ -21,6 +21,10 @@
         dest: "{{cron_files_location}}/update-background-cron"
 
     - shell: "fcrontab {{cron_files_location}}/update-background-cron"
+    - systemd:
+        name: fcron
+        state: started
+        enabled: yes
 
 - name: Download images
   tags:
