@@ -1,0 +1,23 @@
+---
+- name: Desktop background images
+  tags:
+    - desktop-background
+  block:
+
+    - file:
+        path: "{{item}}"
+        state: directory
+      with_items:
+        - "/home/{{local_user}}/.config/fcron"
+        - "/home/{{local_user}}/.local/bin/tools/"
+
+    - template:
+        src: update-background.sh
+        dest: "{{update_background_script_path}}"
+        mode: 0644
+
+    - template:
+        src:  desktop-background-cron
+        dest: "{{cron_files_location}}/update-background-cron"
+
+    - shell: "fcrontab {{cron_files_location}}/update-background-cron"
