@@ -5,6 +5,7 @@
     - local_user: "han"
     - github_user: "patrick-motard"
     - new_install: true
+    - background_images_dir: "/home/han/Dropbox/photos/backgrounds/2017/selected/*"
   roles:
     - pacman
 
@@ -22,6 +23,28 @@
     #         name: ckb-next-daemon
     #         state: started
     #         enabled: yes
+
+    # Setup: desktop background image slideshow
+    # - name: Enable fcron service.
+    #   systemd:
+    #     name: fcron
+    #     enabled: yes
+    #     state: started
+    # - name: Load crontabs
+    #   script: fcrontab ~/.config/fcron/my-fcrontab
+    - name: enable cron
+      tags:
+        - background-images
+      cron:
+        name: update_background
+        minute: "*/5"
+        env:
+          - DISPLAY=:0
+        job: |
+          files=({{background_images_dir}})
+          WALLPAPER=$(printf "%s\n" "${files[RANDOM % ${#files[@]}]}")
+          WALLPAPER2=$(printf "%s\n" "${files[RANDOM % ${#files[@]}]}")
+          feh -B white --bg-fill $WALLPAPER --bg-fill $WALLPAPER2
     - name: Docker
       become: true
       block:
