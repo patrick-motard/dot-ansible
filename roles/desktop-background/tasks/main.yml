@@ -25,6 +25,7 @@
         name: fcron
         state: started
         enabled: yes
+      become: true
 
 - name: Download images
   tags:
