@@ -39,6 +39,7 @@
     - unarchive:
         src: dropbox-images.zip
         dest: "{{background_images_dir}}"
+      ignore_errors: true
 
     - file:
         path: dropbox-images.zip
