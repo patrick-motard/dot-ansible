@@ -1,0 +1,36 @@
+---
+- hosts: all
+  vars:
+    - local_user: "vagrant"
+  tasks:
+    - name: Update pacman packages and cache.
+      become: true
+      pacman:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Docker
+      become: true
+      block:
+        - name: Install Docker
+          pacman:
+            name: "docker"
+            state: present
+        - name: Create docker usergroup
+          group:
+            name: docker
+            state: present
+        - name: Add user to docker group
+          # so that we don't have to type sudo every time we use docker
+          user:
+            name: "{{local_user}}"
+            groups: docker
+            append: yes
+        - name: Start/Enable docker service
+          systemd:
+            name: docker
+            # if this step fails in vagrant, 
+            # run 'sudo reboot' before running 'vagrant provision' or 'vagrant up' again
+            # state: started 
+            enabled: yes
+ 
