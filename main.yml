@@ -8,6 +8,10 @@
     - background_images_dir: "/home/{{local_user}}/Dropbox/photos/backgrounds/2017/selected"
     - dot_ansible_path: "/home/{{local_user}}/code/dot-ansible"
     # - desktop_background_schedule: "*/1 * * * *"
+    # install packages from pacman_pkgs
+    - optional_pacman_packages: true
+    # install packages from aur_pkgs
+    - optional_aur_packages: true
   roles:
     - pacman
     - desktop-background

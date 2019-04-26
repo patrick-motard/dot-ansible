@@ -27,8 +27,6 @@
       aur:
         use: trizen
         name: yadm-git
-    - name: Setup YADM
-      shell: "yadm clone -f https://github.com/{{github_user}}/dotfiles.git"
 
 - name: Pacman
   become: true
@@ -44,6 +42,11 @@
       pacman:
         name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs-core') }}"
         state: present
+    - name: Install optional Arch packages
+      pacman:
+        name: "{{ query('lines', 'cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/pacman-pkgs') }}"
+        state: present
+      when: optional_pacman_packages == true
 
     - name: Remove deprecated pacman packages
       pacman:
@@ -88,6 +91,14 @@
         use: trizen
         name: "{{item}}"
       with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs-core"
+
+    - name: Install optional packages
+      become: false
+      aur:
+        use: trizen
+        name: "{{item}}"
+      with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs"
+      when: optional_aur_packages == true
 
 - name: ZSH
   block:
