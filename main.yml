@@ -8,6 +8,10 @@
     - background_images_dir: "/home/{{local_user}}/Dropbox/photos/backgrounds/2017/selected"
     - dot_ansible_path: "/home/{{local_user}}/code/dot-ansible"
     # - desktop_background_schedule: "*/1 * * * *"
+    # install packages from pacman_pkgs
+    - optional_pacman_packages: true
+    # install packages from aur_pkgs
+    - optional_aur_packages: true
   roles:
     - pacman
     - zsh
@@ -72,14 +76,24 @@
       git:
         repo: "https://github.com/VundleVim/Vundle.vim.git"
         dest: "/home/{{local_user}}/.vim/bundle/Vundle.vim"
+    - name: See if yadm has a repo cloned.
+      stat:
+        path: "/home/{{local_user}}/.yadm/repo.git"
+      register: yadm_repo
     - name: Set yadm remote to .ssh
       become: false
       shell: "yadm remote set-url origin git@github.com:{{github_user}}/dotfiles.git"
+      when: yadm_repo.stat.exists == false and yadm_repo.stat.isdir == false
+    - name: See if spacemacs is installed.
+      stat:
+        path: "/home/{{local_user}}/.emacs.d"
+      register: spacemacs_repo
     - name: Remove ~/.emacs.d
       become: false
       file:
         path: "/home/{{local_user}}/.emacs.d"
         state: absent
+      when: spacemacs_repo.stat.exists == false and spacemacs_repo.stat.isdir == false
     - name: Install Spacemacs
       become: false
       git:
