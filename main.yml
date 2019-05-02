@@ -10,10 +10,10 @@
     # - desktop_background_schedule: "*/1 * * * *"
   roles:
     - pacman
+    - zsh
     - desktop-background
-
   tasks:
-
+    - import_tasks: zsh.yml
     # - name: ckb (corsair keyboard)
     #   block:
     #     # ckb is the linux daemon for corsair keyboards
@@ -26,8 +26,6 @@
     #         name: ckb-next-daemon
     #         state: started
     #         enabled: yes
-
-        
     - name: Docker
       become: true
       block:
@@ -74,8 +72,6 @@
       git:
         repo: "https://github.com/VundleVim/Vundle.vim.git"
         dest: "/home/{{local_user}}/.vim/bundle/Vundle.vim"
-
-
     - name: Set yadm remote to .ssh
       become: false
       shell: "yadm remote set-url origin git@github.com:{{github_user}}/dotfiles.git"

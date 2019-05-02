@@ -88,25 +88,3 @@
         use: trizen
         name: "{{item}}"
       with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs-core"
-
-- name: ZSH
-  block:
-    - name: Set default shell
-      become: yes
-      shell: "usermod --shell $(which zsh) {{local_user}}"
-    - name: Clone oh-my-zsh
-      become: false
-      git:
-        repo: "https://github.com/robbyrussell/oh-my-zsh"
-        dest: "/home/{{local_user}}/.oh-my-zsh"
-    - name: Install oh-my-zsh plugin zsh-nvm
-      become: false
-      git:
-        repo: "https://github.com/lukechilds/zsh-nvm"
-        dest: "/home/{{local_user}}/.oh-my-zsh/custom/plugins/zsh-nvm"
-    - name: Install oh-my-zsh plugin zsh-autosuggestions
-      become: false
-      git:
-        repo: https://github.com/zsh-users/zsh-autosuggestions
-        dest: "/home/{{local_user}}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-

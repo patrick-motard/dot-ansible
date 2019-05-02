@@ -1,0 +1,35 @@
+# Installs:
+# - zsh
+# - oh-my-zsh
+# zsh plugins:
+# - zsh-autosuggestions
+# - zsh-nvm
+- name: ZSH
+  block:
+    - name: install zsh
+      become: yes
+      pacman:
+        name: zsh
+        state: present
+    - name: Set default shell
+      become: yes
+      shell: "usermod --shell $(which zsh) {{local_user}}"
+    - name: Install oh-my-zsh
+      become: false
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    # - name: Clone oh-my-zsh
+    #   become: false
+    #   git:
+    #     repo: "https://github.com/robbyrussell/oh-my-zsh"
+    #     dest: "/home/{{local_user}}/.oh-my-zsh"
+    - name: Install oh-my-zsh plugin zsh-nvm
+      become: false
+      git:
+        repo: "https://github.com/lukechilds/zsh-nvm"
+        dest: "/home/{{local_user}}/.oh-my-zsh/custom/plugins/zsh-nvm"
+    - name: Install oh-my-zsh plugin zsh-autosuggestions
+      become: false
+      git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        dest: "/home/{{local_user}}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+

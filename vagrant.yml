@@ -2,7 +2,19 @@
 - hosts: all
   vars:
     - local_user: "vagrant"
+    # git name and email are used to sign your commits in git.
+    - git_name: "Patrick Motard"
+    - git_email: "motard19@gmail.com"
+  roles:
+    - zsh
+    
   tasks:
+
+    - name: Set git username and email
+      shell: |
+        git config --global user.email "{{git_email}}"
+        git config --global user.name "{{git_name}}"
+
     - name: Update pacman packages and cache.
       become: true
       pacman:
@@ -34,3 +46,4 @@
             # state: started 
             enabled: yes
  
+            
