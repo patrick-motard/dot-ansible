@@ -13,9 +13,9 @@
     # install packages from aur_pkgs
     - optional_aur_packages: true
   roles:
-             # - pacman
-             # - zsh
-             # - desktop-background
+    - pacman
+    - zsh
+    - desktop-background
   tasks:
     #- import_tasks: zsh.yml
     # - name: ckb (corsair keyboard)
