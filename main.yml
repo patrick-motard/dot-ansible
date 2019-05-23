@@ -13,9 +13,9 @@
     # install packages from aur_pkgs
     - optional_aur_packages: true
   roles:
-             - pacman
-             - zsh
-             - desktop-background
+             # - pacman
+             # - zsh
+             # - desktop-background
   tasks:
     #- import_tasks: zsh.yml
     # - name: ckb (corsair keyboard)
@@ -73,6 +73,11 @@
       become: false
       shell: "yadm remote set-url origin git@github.com:{{github_user}}/dotfiles.git"
       when: yadm_repo.stat.exists == false
+    - name: Set dot-ansible remote to .ssh
+      become: false
+      shell: "git remote set-url origin git@github.com:patrick-motard/dot-ansible.git"
+      args:
+        chdir: "/home/{{local_user}}/code/dot-ansible"
       # TODO: installing nodejs through nvm isn't necessary, it's done automatically once
       # you log in. The second task to install packages should be run only if node is installed.
       # (will run on subsequent calls)
