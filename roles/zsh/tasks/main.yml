@@ -14,14 +14,14 @@
     - name: Set default shell
       become: yes
       shell: "usermod --shell $(which zsh) {{local_user}}"
-    - name: Install oh-my-zsh
+   # - name: Install oh-my-zsh
+   #   become: false
+   #   shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    - name: Clone oh-my-zsh
       become: false
-      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    # - name: Clone oh-my-zsh
-    #   become: false
-    #   git:
-    #     repo: "https://github.com/robbyrussell/oh-my-zsh"
-    #     dest: "/home/{{local_user}}/.oh-my-zsh"
+      git:
+        repo: "https://github.com/robbyrussell/oh-my-zsh"
+        dest: "/home/{{local_user}}/.oh-my-zsh"
     - name: Install oh-my-zsh plugin zsh-nvm
       become: false
       git:
