@@ -5,8 +5,8 @@
     - local_user: "han"
     - github_user: "patrick-motard"
     - new_install: true
-    - background_images_dir: "/home/{{local_user}}/Dropbox/photos/backgrounds/2017/selected"
-    - dot_ansible_path: "/home/{{local_user}}/code/dot-ansible"
+    - background_images_dir: "{{ansible_user_dir}}/Dropbox/photos/backgrounds/2017/selected"
+    - dot_ansible_path: "{{ansible_user_dir}}/code/dot-ansible"
     # - desktop_background_schedule: "*/1 * * * *"
     # install packages from pacman_pkgs
     - optional_pacman_packages: true
@@ -17,11 +17,8 @@
     - zsh
     - desktop-background
     - lock-screen
+    - lastpass
   tasks:
-<<<<<<< HEAD
-=======
-    #- import_tasks: zsh.yml
->>>>>>> df30f2ee60604210d3d0c3e47d0e7b7c4a18434d
     # - name: ckb (corsair keyboard)
     #   block:
     #     # ckb is the linux daemon for corsair keyboards
@@ -64,10 +61,10 @@
       become: false
       git:
         repo: "https://github.com/VundleVim/Vundle.vim.git"
-        dest: "/home/{{local_user}}/.vim/bundle/Vundle.vim"
+        dest: "{{ansible_user_dir}}/.vim/bundle/Vundle.vim"
     - name: See if yadm has a repo cloned.
       stat:
-        path: "/home/{{local_user}}/.yadm/repo.git"
+        path: "{{ansible_user_dir}}/.yadm/repo.git"
       register: yadm_repo
     - name: Clone dotfiles repo with yadm.
       become: false
@@ -81,8 +78,34 @@
       become: false
       shell: "git remote set-url origin git@github.com:patrick-motard/dot-ansible.git"
       args:
-        chdir: "/home/{{local_user}}/code/dot-ansible"
-      # TODO: installing nodejs through nvm isn't necessary, it's done automatically once
+        chdir: "{{ansible_user_dir}}/code/dot-ansible"
+    - name: Link dotfiles to dot-ansible
+      # The idea of this block of tasks is to make sure the user has all the aliases,
+      # exports, functions, etc that they need. If a new feature is introduced by
+      # dot-ansible, but it requires a user to add a line of code/configuration to their
+      # .*rc file, that sucks. Instead, this will make sure that their .*rc file imports
+      # all the settings required. We add a source line to their .*rc file (.profile is
+      # the best option as it's always loaded, no matter if you use zsh or bash), that
+      # will source a file from dot-ansible (the file is currently called 'shell-imports').
+      # That file will include all the needed aliases, exports, etc.
+      # It's somewhat similar to the approach that oh-my-zsh follows with their plugins.
+      # That's the end goal at least.
+      become: false
+      block:
+        - stat:
+            path: "{{ansible_user_dir}}/.profile"
+          register: profile_stat_result
+        - debug: var=profile_stat_result
+        - file:
+            path: "{{ansible_user_dir}}/.profile"
+            state: touch
+          when: profile_stat_result.stat.exists == false
+        - blockinfile:
+            path: "{{ansible_user_dir}}/.profile"
+            block: |
+              source ~/code/dot-ansible/shell-imports.sh
+            marker: "# {mark} managed by dot-ansible in ~/code/dot-ansible"
+      # TODO: installing nodejs through nvm isn't necessary, it's#  done automatically once
       # you log in. The second task to install packages should be run only if node is installed.
       # (will run on subsequent calls)
       #    - name: NodeJS 
@@ -91,8 +114,8 @@
       #        - name: install Node with NVM
       #          shell: |
       #            echo $USER
-      #            . /home/{{local_user}}/.nvm/nvm.sh
-      #            node_version=$(</home/{{local_user}}/.nvmrc)
+      #            . {{ansible_user_dir}}/.nvm/nvm.sh
+      #            node_version=$(<{{ansible_user_dir}}/.nvmrc)
       #            nvm install $node_version
       #        - name: install npm packages
       #          npm:
@@ -102,19 +125,19 @@
       #            - tern
     - name: See if spacemacs is installed.
       stat:
-        path: "/home/{{local_user}}/.emacs.d"
+        path: "{{ansible_user_dir}}/.emacs.d"
       register: spacemacs_repo
     - name: Remove ~/.emacs.d
       become: false
       file:
-        path: "/home/{{local_user}}/.emacs.d"
+        path: "{{ansible_user_dir}}/.emacs.d"
         state: absent
       when: spacemacs_repo.stat.exists == false
     - name: Install Spacemacs
       become: false
       git:
         repo: "https://github.com/syl20bnr/spacemacs"
-        dest: "/home/{{local_user}}/.emacs.d"
+        dest: "{{ansible_user_dir}}/.emacs.d"
         version: develop
     #TODO: This needs gopath to be set correctly before it can be run
     - name: Install go packages
