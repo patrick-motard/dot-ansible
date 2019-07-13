@@ -16,8 +16,8 @@
     - pacman
     - zsh
     - desktop-background
+    - lock-screen
   tasks:
-    - import_tasks: zsh.yml
     # - name: ckb (corsair keyboard)
     #   block:
     #     # ckb is the linux daemon for corsair keyboards
@@ -103,6 +103,7 @@
     - name: Install go packages
       become: false
       shell: "go get -u -v {{item}}"
+      ignore_errors: true
       with_items:
         # needed for spacemacs go layer
         # https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Blang/go

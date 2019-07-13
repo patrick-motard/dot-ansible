@@ -67,6 +67,7 @@
         rustup default stable
 
 - name: AUR
+  become: yes
   tags:
     - aur
   block:
@@ -75,7 +76,6 @@
     # - name: Add GPG signature for libc++ (for discord)
     #   command: "gpg --recv-keys --keyserver hkp://pgp.mit.edu 0FC3042E345AD05D"
     - name: Update AUR packages
-      become: false
       aur:
         use: trizen
         upgrade: yes
@@ -86,13 +86,11 @@
         state: absent
 
     - name: Install packages
-      become: false
       aur:
         use: trizen
         name: "{{item}}"
       with_lines: "cat /home/{{local_user}}/code/dot-ansible/roles/pacman/files/aur-pkgs-core"
     - name: Install optional packages
-      become: false
       aur:
         use: trizen
         name: "{{item}}"
