@@ -18,6 +18,10 @@
     - desktop-background
     - lock-screen
   tasks:
+<<<<<<< HEAD
+=======
+    #- import_tasks: zsh.yml
+>>>>>>> df30f2ee60604210d3d0c3e47d0e7b7c4a18434d
     # - name: ckb (corsair keyboard)
     #   block:
     #     # ckb is the linux daemon for corsair keyboards
@@ -48,21 +52,6 @@
             name: docker
             state: started
             enabled: yes
-    - name: NodeJS 
-      become: false
-      block:
-        - name: install Node with NVM
-          shell: |
-            echo $USER
-            . /home/{{local_user}}/.nvm/nvm.sh
-            node_version=$(</home/{{local_user}}/.nvmrc)
-            nvm install $node_version
-        - name: install npm packages
-          npm:
-            name: "{{item}}"
-            global: yes
-          with_items:
-            - tern
     - name: Python packages
       become: false
       pip:
@@ -80,10 +69,37 @@
       stat:
         path: "/home/{{local_user}}/.yadm/repo.git"
       register: yadm_repo
+    - name: Clone dotfiles repo with yadm.
+      become: false
+      shell: "yadm clone https://github.com/{{github_user}}/dotfiles.git"
+      ignore_errors: yes
     - name: Set yadm remote to .ssh
       become: false
       shell: "yadm remote set-url origin git@github.com:{{github_user}}/dotfiles.git"
-      when: yadm_repo.stat.exists == false and yadm_repo.stat.isdir == false
+      when: yadm_repo.stat.exists == false
+    - name: Set dot-ansible remote to .ssh
+      become: false
+      shell: "git remote set-url origin git@github.com:patrick-motard/dot-ansible.git"
+      args:
+        chdir: "/home/{{local_user}}/code/dot-ansible"
+      # TODO: installing nodejs through nvm isn't necessary, it's done automatically once
+      # you log in. The second task to install packages should be run only if node is installed.
+      # (will run on subsequent calls)
+      #    - name: NodeJS 
+      #      become: false
+      #      block:
+      #        - name: install Node with NVM
+      #          shell: |
+      #            echo $USER
+      #            . /home/{{local_user}}/.nvm/nvm.sh
+      #            node_version=$(</home/{{local_user}}/.nvmrc)
+      #            nvm install $node_version
+      #        - name: install npm packages
+      #          npm:
+      #            name: "{{item}}"
+      #            global: yes
+      #          with_items:
+      #            - tern
     - name: See if spacemacs is installed.
       stat:
         path: "/home/{{local_user}}/.emacs.d"
@@ -93,13 +109,14 @@
       file:
         path: "/home/{{local_user}}/.emacs.d"
         state: absent
-      when: spacemacs_repo.stat.exists == false and spacemacs_repo.stat.isdir == false
+      when: spacemacs_repo.stat.exists == false
     - name: Install Spacemacs
       become: false
       git:
         repo: "https://github.com/syl20bnr/spacemacs"
         dest: "/home/{{local_user}}/.emacs.d"
         version: develop
+    #TODO: This needs gopath to be set correctly before it can be run
     - name: Install go packages
       become: false
       shell: "go get -u -v {{item}}"
