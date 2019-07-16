@@ -19,6 +19,9 @@
     - lock-screen
     - lastpass
   tasks:
+    - name: Enable thumbnails for pictures and videos.
+      tags: thumbnails
+      import_tasks: thumbnails.yml
     # - name: ckb (corsair keyboard)
     #   block:
     #     # ckb is the linux daemon for corsair keyboards
