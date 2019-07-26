@@ -2,8 +2,8 @@
 - hosts: 127.0.0.1
   connection: local
   vars:
-    - local_user: "han"
-    - github_user: "patrick-motard"
+    - local_user: "matt"
+    - github_user: "mmuldo"
     - new_install: true
     - background_images_dir: "{{ansible_user_dir}}/Dropbox/photos/backgrounds/2017/selected"
     - dot_ansible_path: "{{ansible_user_dir}}/code/dot-ansible"
