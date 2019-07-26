@@ -1,6 +1,7 @@
 ---
 # This file includes all the tasks needed to enable thumbnails in Thunar (the file explorer/manager) for images and videos.
 - name: Install required packages.
+  become: true
   pacman:
     name: [
     'tumbler',
