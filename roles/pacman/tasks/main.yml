@@ -67,7 +67,6 @@
         rustup default stable
 
 - name: AUR
-  become: yes
   tags:
     - aur
   block:

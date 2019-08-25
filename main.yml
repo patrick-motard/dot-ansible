@@ -55,7 +55,7 @@
     - name: Python packages
       become: false
       pip:
-        name: 
+        name:
           - pip
           - awscli
           - polybar-reload
@@ -111,7 +111,7 @@
       # TODO: installing nodejs through nvm isn't necessary, it's#  done automatically once
       # you log in. The second task to install packages should be run only if node is installed.
       # (will run on subsequent calls)
-      #    - name: NodeJS 
+      #    - name: NodeJS
       #      become: false
       #      block:
       #        - name: install Node with NVM
@@ -140,7 +140,7 @@
       become: false
       git:
         repo: "https://github.com/syl20bnr/spacemacs"
-        dest: "{{ansible_user_dir}}/.emacs.d"
+        dest: "{{ansible_user_dir}}/.emacs.d.spacemacs"
         version: develop
     #TODO: This needs gopath to be set correctly before it can be run
     - name: Install go packages
@@ -164,3 +164,19 @@
     #   become: false
     #   shell: go get -u all
 
+    # These are weechat config files that contain sensitive information and
+    # are not checked in to dotfiles. They are symlinked from a cloud storage.
+    - name: Weechat symlinks
+      tags: weechat
+      # for a list of weechat config files:
+      # https://weechat.org/files/doc/stable/weechat_user.en.html#weechat_files
+      with_items:
+      - sec.conf
+      - plugins.conf
+      - alias.conf
+      - trigger.conf
+      - irc.conf
+      file:
+        src: "{{ansible_user_dir}}/Dropbox/weechat/{{item}}"
+        dest: "{{ansible_user_dir}}/.weechat/{{item}}"
+        state: link
