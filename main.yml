@@ -164,19 +164,9 @@
     #   become: false
     #   shell: go get -u all
 
-    # These are weechat config files that contain sensitive information and
-    # are not checked in to dotfiles. They are symlinked from a cloud storage.
-    - name: Weechat symlinks
+    - name: symlink weechat
       tags: weechat
-      # for a list of weechat config files:
-      # https://weechat.org/files/doc/stable/weechat_user.en.html#weechat_files
-      with_items:
-      - sec.conf
-      - plugins.conf
-      - alias.conf
-      - trigger.conf
-      - irc.conf
       file:
-        src: "{{ansible_user_dir}}/Dropbox/weechat/{{item}}"
-        dest: "{{ansible_user_dir}}/.weechat/{{item}}"
+        src: "{{ansible_user_dir}}/Dropbox/.weechat/"
+        dest: "{{ansible_user_dir}}/.weechat"
         state: link
