@@ -18,6 +18,7 @@
     - desktop-background
     - lock-screen
     - lastpass
+    - emacs
   tasks:
     - name: Enable thumbnails for pictures and videos.
       tags: thumbnails
@@ -126,22 +127,6 @@
       #            global: yes
       #          with_items:
       #            - tern
-    - name: See if spacemacs is installed.
-      stat:
-        path: "{{ansible_user_dir}}/.emacs.d"
-      register: spacemacs_repo
-    - name: Remove ~/.emacs.d
-      become: false
-      file:
-        path: "{{ansible_user_dir}}/.emacs.d"
-        state: absent
-      when: spacemacs_repo.stat.exists == false
-    - name: Install Spacemacs
-      become: false
-      git:
-        repo: "https://github.com/syl20bnr/spacemacs"
-        dest: "{{ansible_user_dir}}/.emacs.d.spacemacs"
-        version: develop
     #TODO: This needs gopath to be set correctly before it can be run
     - name: Install go packages
       become: false
