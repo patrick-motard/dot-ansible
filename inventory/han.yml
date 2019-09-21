@@ -1,0 +1,8 @@
+---
+all:
+  hosts:
+    localhost
+  vars:
+    ansible_connection: local
+    soundcloud_permalink: patrick-motard
+    soundcloud_download_folder: /home/han/Dropbox/music

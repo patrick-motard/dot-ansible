@@ -13,6 +13,7 @@
     # install packages from aur_pkgs
     - optional_aur_packages: true
   roles:
+    - music
     - pacman
     - zsh
     - desktop-background
