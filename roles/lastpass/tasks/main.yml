@@ -1,5 +1,6 @@
 ---
 - name: Install dependencies
+  become: true
   pacman:
     name: lastpass-cli
     state: present
