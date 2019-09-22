@@ -4,4 +4,4 @@
 - name: Set up nehm configuration.
   template:
     src: .nemconfig.j2
-    dest: "{{ansible_user_dir}}/.nemconfig"
+    dest: "{{ansible_user_dir}}/.nehmconfig"

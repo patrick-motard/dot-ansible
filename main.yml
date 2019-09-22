@@ -1,17 +1,6 @@
 ---
 - hosts: 127.0.0.1
   connection: local
-  vars:
-    - local_user: "han"
-    - github_user: "patrick-motard"
-    - new_install: true
-    - background_images_dir: "{{ansible_user_dir}}/Dropbox/photos/backgrounds/2017/selected"
-    - dot_ansible_path: "{{ansible_user_dir}}/code/dot-ansible"
-    # - desktop_background_schedule: "*/1 * * * *"
-    # install packages from pacman_pkgs
-    - optional_pacman_packages: true
-    # install packages from aur_pkgs
-    - optional_aur_packages: true
   roles:
     - music
     - pacman
@@ -24,18 +13,19 @@
     - name: Enable thumbnails for pictures and videos.
       tags: thumbnails
       import_tasks: thumbnails.yml
-    # - name: ckb (corsair keyboard)
-    #   block:
-    #     # ckb is the linux daemon for corsair keyboards
-    #     - name: See if ckb is installed
-    #       shell: "pacman -Qemq | grep -c ckb-next"
-    #       register: ckb
-    #     - name: ckb-next
-    #       when: ckb.stdout == "1"
-    #       systemd:
-    #         name: ckb-next-daemon
-    #         state: started
-    #         enabled: yes
+    - name: ckb (corsair keyboard)
+      when: install_ckb == true
+      block:
+        # ckb is the linux daemon for corsair keyboards
+        - name: See if ckb is installed
+          shell: "pacman -Qemq | grep -c ckb-next"
+          register: ckb
+        - name: ckb-next
+          when: ckb.stdout == "1"
+          systemd:
+            name: ckb-next-daemon
+            state: started
+            enabled: yes
     - name: Docker
       become: true
       block:

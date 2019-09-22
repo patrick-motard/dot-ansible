@@ -1,4 +1,5 @@
 **.retry
+inventory/**
 
 # OS-specific
 .DS_Store
