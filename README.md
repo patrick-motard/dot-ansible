@@ -6,8 +6,28 @@ See the [dot-ansible wiki](https://github.com/patrick-motard/dot-ansible/wiki) f
 
 ## usage
 
+### Create your own settings file.
+`dot-ansible`'s settings file is an [inventory file](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html). It's just a yaml file with key value pairs in it. Name your hostfile off of your machines hostname, that way you can have one for each of your computers.
+
+To get started, create your own hostfile, using mine as your base:
+
+```
+cp inventory/h-m-falcon.yml inventory/$(hostname).yml
+```
+
+Then edit the inventory file before running ansible.
+
+### Calling `dot-ansible`
+
 ```
 ansible-playbooks main.yml -i ~/code/ansible-playbooks/inventory/$(hostname).yml --ask-become-pass
+```
+
+You can alias that command if you'd like. [Here's an example](https://github.com/patrick-motard/dotfiles/blob/master/.zshrc#L155).
+
+```
+# put this in your ~/.zshrc file
+alias update="ansible-playbook ~/code/dot-ansible/main.yml -i ~/code/dot-ansible/inventory/$(hostname).yml --ask-become-pass"
 ```
 
 More instructions soon to come.
