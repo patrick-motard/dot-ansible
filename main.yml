@@ -13,13 +13,23 @@
     - name: Enable thumbnails for pictures and videos.
       tags: thumbnails
       import_tasks: thumbnails.yml
+    # For systems that may have installed ckb because it used to be
+    # in the list of aur packages, we uninstall if settings tell us to.
+    - name: ckb uninstall if not needed
+      # the aur module doesn't support uninstalling
+      when: install_ckb is false
+      shell: trizen -R --noconfirm ckb-next
     - name: ckb (corsair keyboard)
-      when: install_ckb == true
+      when: install_ckb is true
       block:
         # ckb is the linux daemon for corsair keyboards
+        - name: Install ckb.
+          aur:
+            use: trizen
+            name: ckb-next
         - name: See if ckb is installed
           shell: "pacman -Qemq | grep -c ckb-next"
-          register: ckb
+          register: ckb-daemon
         - name: ckb-next
           when: ckb.stdout == "1"
           systemd:
