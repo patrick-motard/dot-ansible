@@ -7,14 +7,15 @@
 - name: ZSH
   block:
     - name: install zsh
+      when: ansible_os_family != "Darwin"
       become: yes
       pacman:
         name: zsh
         state: present
     - name: Set default shell
+      when: ansible_os_family != "Darwin"
       become: yes
       shell: "usermod --shell $(which zsh) {{local_user}}"
-    - debug: "var=lookup('env','ZSH')"
     - name: Install oh-my-zsh
       become: false
       when: lookup('env', 'ZSH') == ''
@@ -28,10 +29,17 @@
       become: false
       git:
         repo: "https://github.com/lukechilds/zsh-nvm"
-        dest: "/home/{{local_user}}/.oh-my-zsh/custom/plugins/zsh-nvm"
+        dest: "{{ansible_env.HOME}}/.oh-my-zsh/custom/plugins/zsh-nvm"
     - name: Install oh-my-zsh plugin zsh-autosuggestions
       become: false
       git:
         repo: https://github.com/zsh-users/zsh-autosuggestions
-        dest: "/home/{{local_user}}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        dest: "{{ansible_env.HOME}}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    - name: Powerlevel10k zsh theme
+      when: ansible_os_family == "Darwin"
+      become: false
+      git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "{{ansible_env.HOME}}/.oh-my-zsh/custom/themes/powerlevel10k"
+
 

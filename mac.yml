@@ -1,0 +1,13 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+  - zsh
+  tasks:
+  - import_tasks: tasks/vundle.yml
+  - name: zsh
+    when: ansible_os_family != "Darwin"
+    debug: var=ansible_os_family
+  - name: zsh
+    when: ansible_os_family == "Darwin"
+    debug: var=ansible_env.HOME
