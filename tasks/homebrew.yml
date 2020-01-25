@@ -1,0 +1,7 @@
+---
+- homebrew:
+    name: yadm,python3,zsh
+    state: present
+- homebrew_cask:
+    name: discord,iterm2,visual-studio-code,dropbox,spotify
+    state: present

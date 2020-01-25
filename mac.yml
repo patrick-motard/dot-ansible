@@ -5,6 +5,7 @@
   - zsh
   tasks:
   - import_tasks: tasks/vundle.yml
+  - import_tasks: tasks/homebrew.yml
   - name: zsh
     when: ansible_os_family != "Darwin"
     debug: var=ansible_os_family
