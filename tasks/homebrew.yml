@@ -1,7 +1,7 @@
 ---
 - homebrew:
-    name: yadm,python3,zsh
+    name: yadm,python3,zsh,neovim
     state: present
 - homebrew_cask:
-    name: discord,iterm2,visual-studio-code,dropbox,spotify
+    name: discord,iterm2,visual-studio-code,dropbox,spotify,emacs
     state: present

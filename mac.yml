@@ -3,6 +3,7 @@
   connection: local
   roles:
   - zsh
+  - emacs
   tasks:
   - import_tasks: tasks/vundle.yml
   - import_tasks: tasks/homebrew.yml
