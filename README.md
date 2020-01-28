@@ -4,7 +4,24 @@ The installer and updater for [Dotfiles](https://github.com/patrick-motard/dotfi
 
 See the [dot-ansible wiki](https://github.com/patrick-motard/dot-ansible/wiki) for documentation and a user guide.
 
-## usage
+# usage
+
+## Mac OS
+
+### Setup
+
+```
+./mac-setup.sh
+```
+
+### Commands
+
+```
+ansible-playbook mac.yml
+```
+
+
+## Linux
 
 ### Create your own settings file.
 `dot-ansible`'s settings file is an [inventory file](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html). It's just a yaml file with key value pairs in it. Name your hostfile off of your machines hostname, that way you can have one for each of your computers.
