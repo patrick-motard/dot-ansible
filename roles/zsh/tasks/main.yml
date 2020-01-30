@@ -35,11 +35,3 @@
       git:
         repo: https://github.com/zsh-users/zsh-autosuggestions
         dest: "{{ansible_env.HOME}}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-    - name: Powerlevel10k zsh theme
-      when: ansible_os_family == "Darwin"
-      become: false
-      git:
-        repo: https://github.com/romkatv/powerlevel10k.git
-        dest: "{{ansible_env.HOME}}/.oh-my-zsh/custom/themes/powerlevel10k"
-
-
