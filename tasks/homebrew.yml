@@ -1,8 +1,20 @@
 ---
 - homebrew:
-    name: yadm,python3,zsh,neovim,mysql
+    name: 
+      - yadm
+      - python3
+      - zsh
+      - neovim
+      - mysql
+      - tmux
     state: present
 - homebrew_cask:
     state: present
-    name: >-
-      discord,iterm2,visual-studio-code,dropbox,spotify,emacs,sequel-pro
+    name: 
+      - discord
+      - iterm2
+      - visual-studio-code
+      - dropbox
+      - spotify
+      - emacs
+      - sequel-pro
