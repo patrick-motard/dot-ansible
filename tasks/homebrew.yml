@@ -7,6 +7,10 @@
       - neovim
       - mysql
       - tmux
+      # for: billing app selenium
+      - "selenium-server-standalone"
+      # end: billing app selenium
+      - watch
     state: present
 - homebrew_cask:
     state: present
@@ -18,3 +22,7 @@
       - spotify
       - emacs
       - sequel-pro
+      # for: billing app selenium
+      - java
+      - chromedriver
+      # end: billing app selenium
