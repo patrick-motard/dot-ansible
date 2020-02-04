@@ -10,11 +10,15 @@ See the [dot-ansible wiki](https://github.com/patrick-motard/dot-ansible/wiki) f
 
 ### Setup
 
+This should install ansible, python3, and mitogen. Once those are installed, you can move on to "Commands".
 ```
 ./mac-setup.sh
 ```
 
 ### Commands
+
+Runs the mac playbook that will configure your machine. 
+See `mac.yml` for details on what it does. Comment out any roles or tasks that you don't want to run. For example, if you don't want emacs, comment out the emacs role.
 
 ```
 ansible-playbook mac.yml
