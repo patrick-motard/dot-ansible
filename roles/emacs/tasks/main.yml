@@ -3,12 +3,12 @@
 # emacs configuration from. This is called via a script launched from
 # mod+i in i3wm, which loads scripts defined in ~/.config/rofi/cmd.csv
 - name: Download chemacs
-  when: ansible_os_family != "Darwin"
+  # when: ansible_os_family != "Darwin"
   git:
     repo: "https://github.com/plexus/chemacs.git"
     dest: "{{ansible_user_dir}}/code/chemacs"
 - name: Install chemacs
-  when: ansible_os_family != "Darwin"
+  # when: ansible_os_family != "Darwin"
   shell: ./install.sh
   args:
     chdir: "{{ansible_user_dir}}/code/chemacs"
