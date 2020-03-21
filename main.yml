@@ -12,7 +12,7 @@
   tasks:
     - name: Enable thumbnails for pictures and videos.
       tags: thumbnails
-      import_tasks: thumbnails.yml
+      import_tasks: tasks/thumbnails.yml
     # For systems that may have installed ckb because it used to be
     # in the list of aur packages, we uninstall if settings tell us to.
     - name: ckb uninstall if not needed
