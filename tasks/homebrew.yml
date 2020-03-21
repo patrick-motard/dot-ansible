@@ -1,10 +1,11 @@
 ---
 - homebrew:
-    name: 
+    name:
       - yadm
       - python3
       - zsh
       - neovim
+      - emacs-plus
       - mysql
       - tmux
       # for: billing app selenium
@@ -14,13 +15,12 @@
     state: present
 - homebrew_cask:
     state: present
-    name: 
+    name:
       - discord
       - iterm2
       - visual-studio-code
       - dropbox
       - spotify
-      - emacs
       - sequel-pro
       # for: billing app selenium
       - java
