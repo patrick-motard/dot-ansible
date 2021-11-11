@@ -1,17 +1,14 @@
 ---
 - homebrew:
     name:
-      - yadm
       - python3
       - zsh
       - neovim
       - emacs-plus
       - mysql
-      - tmux
-      # for: billing app selenium
-      - "selenium-server-standalone"
-      # end: billing app selenium
       - watch
+      - antigen # zsh plugin manager
+      - chezmoi # dotfile manager
     state: present
 - homebrew_cask:
     state: present
@@ -22,7 +19,3 @@
       - dropbox
       - spotify
       - sequel-pro
-      # for: billing app selenium
-      - java
-      - chromedriver
-      # end: billing app selenium
